@@ -13,7 +13,6 @@
 			endpoint : {
 				fillStyle: "#a7b04b"
 			}
-
 		},
 			
 		init : function () {
@@ -23,42 +22,7 @@
 				zIndex: 2000
 			};
 
-			//
-			var connection1 = jsPlumb.connect({
-					source:"window1", 
-			   	target:"window2", 			   	
-					connector:"Bezier",
-			   	cssClass:"c1",
-			   	endpoint:"Blank",
-			   	endpointClass:"c1Endpoint",													   
-			   	anchors:["BottomCenter", [ 0.75, 0, 0, -1 ]], 
-			   	paintStyle:{ 
-					lineWidth:6,
-					strokeStyle: this.colors.connector_stroke,
-					outlineWidth:1,
-					outlineColor: this.colors.outline
-				},
-				endpointStyle: this.colors.endpoint,
-			  hoverPaintStyle: this.colors.hover_paint,
-			  overlays : [
-			  	["Label", {
-	 					cssClass:"l1 component label",
-	 					label : "A connection", 
-	 					location: 0.5,
-	 					id: "label-1",
-	 					events: {
-							"click" : function (label, e) {
-								log("Click on label");
-	 						}
-	 					}
-	 				}]
-				]
-			});
-
-			
-
-
-			// jsplumb event handlers
+			// jsPlumb event handlers
 	
 			// double click on any connection 
 			jsPlumb.bind("dblclick", function(connection, e) {
@@ -72,13 +36,13 @@
 			
 			// context menu
 			jsPlumb.bind("contextmenu", function(component, e) {
-				log("content menu click")
+				log("content menu click");
 			});
-			
-			
-			// make components draggable
-			jsPlumb.draggable( $('.window') );
             
+		},
+
+
+
 		dialogue : function () {
 			var view = dialogueView.create({
 				title : "Add Component"
@@ -225,6 +189,10 @@
 
 		resetRenderMode(jsPlumb.SVG);
 	});
+
+
+
+
 
 
 	// Events
