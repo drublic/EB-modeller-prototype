@@ -21,7 +21,8 @@
 
 	var	dialogue = function () {
 		var view = Modeller.dialogueView.create({
-			title : "Add Component"
+			title : "Add Component",
+			classNames : ['dialogue', 'dialogue-add']
 		});
 
 		return {
@@ -127,6 +128,7 @@
 	Modeller.dialogueView = Ember.View.extend({
 		templateName : 'dialogue',
 		classNames : ['dialogue'],
+		tagName : 'form',
 
 		title : null,
 		modell : {
