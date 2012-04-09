@@ -44,6 +44,28 @@ body {
 	box-sizing: border-box;
 	background: #f5f5f5;
 	border: 1px solid #ddd;
+	box-shadow: 0 0 20px rgba(100,100,100,.5);
+}
+
+
+.dialogue-close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+.dialogue fieldset {
+	margin: 5px 0 ;
+}
+
+.dialogue label {
+	display: block;
+}
+
+.dialogue input[type="text"],
+.dialogue textarea {
+	width: 100%;
+	box-sizing: border-box;
 }
 
 
