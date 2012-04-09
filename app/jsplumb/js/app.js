@@ -127,6 +127,72 @@
 	modellerView.appendTo('.main');
 
 
+
+	// Connections
+	var Connection = Ember.Object.extend({
+		source : null,
+		target : null,
+		label : {
+			title : null
+		},
+
+		render : function () {
+			var that = this;
+
+			jsPlumb.connect({
+				source: that.source,
+			  target: that.target,
+			  cssClass: "connection",
+			  endpointClass: "c1Endpoint",
+			  anchors: ["BottomCenter", [ 0.75, 0, 0, -1 ]],
+			  paintStyle: {
+					lineWidth: 2,
+					strokeStyle: _plumber.colors.connector_stroke
+				},
+			  overlays : [
+			  	["Label", {
+	 					cssClass: "label",
+	 					label : that.label.title,
+	 				}]
+				]
+			});
+		}
+
+	});
+
+
+	var connections = [
+		Connection.create({
+			source : "window-1",
+			target : "window-2",
+			label : {
+				title : "A connection"
+			}
+		})
+	];
+
+
+
+	// Template for dialogue
+	var dialogueView = Ember.View.extend({
+		templateName : 'dialogue',
+		classNames : ['dialogue'],
+
+		title : null,
+		modell : {
+			title : null,
+			desc : null
+		},
+		connection : {
+			title : null
+		},
+		modells : modells
+	});
+
+
+
+
+
 	// handles the first init
 	jsPlumb.bind("ready", function() {
 
