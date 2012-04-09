@@ -64,13 +64,19 @@
 	// View for Modells
 	Modeller.modellerView = Ember.View.create({
 		templateName : 'components',
-		modells : Modeller.Storage.findAll(),
+		modells : Modeller.Storage.findAllByType(),
 
+		// After the elements are inserted
 		didInsertElement : function () {
+
+			// Find all connections in storage
+			var connections = Modeller.Storage.findAllByType("Connection");
+
 			// make components draggable
 			jsPlumb.draggable( $('.component') );
 
-			Modeller.connections.forEach(function (item) {
+			// Render Connections
+			connections.forEach(function (item) {
 				item.render();
 			});
 		}
@@ -85,6 +91,11 @@
 			title : null
 		},
 		_type : "Connection",
+
+		// If anything changes in this model, this Storage is updated
+	  modellChanged: function () {
+	    Modeller.Storage.update(this);
+	  }.observes('source', 'target', 'label'),
 
 		render : function () {
 			var that = this;
@@ -111,17 +122,6 @@
 	});
 
 
-	Modeller.connections = [
-		Modeller.Connection.create({
-			source : "window-1",
-			target : "window-2",
-			label : {
-				title : "A connection"
-			}
-		})
-	];
-
-
 
 	// Template for dialogue
 	Modeller.dialogueView = Ember.View.extend({
@@ -143,6 +143,7 @@
 	Modeller.modellerController = Ember.ArrayProxy.create({
 	  content: [],
 
+
 	  createModell: function (title, desc) {
 	    var modell = Modeller.Modell.create({
 	    	title : title,
@@ -150,6 +151,19 @@
 	   	});
 	    this.pushObject(modell);
 	    return Modeller.Storage.create(modell);
+	  },
+
+
+	  createConnection: function (source, target, title) {
+	    var connection = Modeller.Connection.create({
+	    	source : source,
+	    	target : target,
+	    	label : {
+	    		title : title
+	    	}
+	   	});
+	    this.pushObject(connection);
+	    return Modeller.Storage.create(connection);
 	  },
 
 	  pushObject: function (item, ignoreStorage) {
@@ -175,13 +189,20 @@
 
 		// If items is empty, add two components
 		if (items.length < 1) {
-			Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
-			Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
+			var modell_1, modell_2;
+
+			modell_1 = Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
+			modell_2 = Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
+
+			Modeller.modellerController.createConnection(modell_1.id, modell_2.id, "A Connection");
 
 			items = Modeller.Storage.findAllByType();
 		}
 
+		// Save all that stuff in modellerController
 		Modeller.modellerController.set('[]', items);
+
+		// Rendering for views
 		Modeller.modellerView.appendTo('.main');
 	} ();
 
