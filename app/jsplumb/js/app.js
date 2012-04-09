@@ -52,6 +52,7 @@
 		id : null,
 		title : null,
 		desc : null,
+	  _type : "Modell"
 
 		// If anything changes in this model, this Storage is updated
 	  modellChanged: function () {
@@ -144,8 +145,7 @@
 	  createModell: function (title, desc) {
 	    var modell = Modeller.Modell.create({
 	    	title : title,
-	    	desc : desc,
-	    	_type : "Modell"
+	    	desc : desc
 	   	});
 	    this.pushObject(modell);
 	    return Modeller.Storage.create(modell);
