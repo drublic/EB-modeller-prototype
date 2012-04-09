@@ -21,22 +21,54 @@
     </ul>
   </header>
   
-  <div class="main">
-    <div class="component window" id="window1">
-      <h3>Window 1</h3>
-      <p>I am plumbed with a Bezier connector to Window 2 and a label, with Blank endpoints.</p>
-    </div>
+  <div class="main"></div>
 
-    <div class="component window" id="window2">
-      <h3>Window 2</h3>
-      <p>I am plumbed with a Bezier connector to Window 1, and a Bezier connector with Rectangle endpoints to Window 3</p>
-    </div>
-  </div>
+  <script type="text/x-handlebars" data-template-name="components">
+    {{#modells}}
+      <div class="component window" id="{{unbound id}}">
+        <h3>{{title}}</h3>
+        <p>{{desc}}</p>
+      </div>
+    {{/modells}}
+  </script>
+
+
+  <script type="text/x-handlebars" data-template-name="dialogue">
+    <h3>{{title}}</h3>
+
+    <a href="#/close" class="dialogue-close">&times;</a>
+
+    <fieldset>
+      <label for="modell-name">Name:</label>
+      <input type="text" id="modell-name" value="{{unbound modell.title}}">
+    </fieldset>
+
+    <fieldset>
+      <label for="modell-description">Description:</label>
+      <textarea id="modell-desc">{{unbound modell.desc}}</textarea>
+    </fieldset>
+
+    <fieldset>
+      <label for="modell-relation">Connection To:</label>
+      <select id="modell-relation">
+        {{#modells}}
+          <option value="{{unbound id}}">{{unbound title}}</option>
+        {{/modells}}
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <label for="connection-title">Connection-Title:</label>
+      <input type="text" id="connection-title" value="{{unbound connection.title}}">
+    </fieldset>
+  </script>
+
 
   <!-- JavaScript at the bottom for fast page loading -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="../../lib/js/jquery-1.7.2.min.js"><\/script>')</script>
 
+  <script src="../../lib/js/ember-0.9.6.min.js"></script>
   <script src="../../lib/js/logger.js"></script>
 
   <!-- Moar includes here -->
