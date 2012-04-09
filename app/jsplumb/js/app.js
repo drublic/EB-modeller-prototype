@@ -2,6 +2,12 @@
 // IIFE fo fastr XS
 + function ($, exports, undefined) {
 
+	Modeller = Ember.Application.create({ 
+		name : "A test moduler",
+		desc : "This is test-modeller for the TYPO3 Extension Builder."
+	});
+
+	
 	var _plumber = {
 		colors : {
 			connector_stroke : "rgba(100, 100, 100, 1)",
@@ -44,7 +50,7 @@
 
 
 		dialogue : function () {
-			var view = dialogueView.create({
+			var view = Modeller.dialogueView.create({
 				title : "Add Component"
 			});
 
@@ -74,20 +80,20 @@
 
 
 	// Create an Modell object
-	var Modell = Ember.Object.extend({
+	Modeller.Modell = Ember.Object.extend({
 		id : null,
 		title : null,
 		desc : null
 	});
 
 	// Create a collection for Modell
-	var modells = [
-		Modell.create({
+	Modeller.modells = [
+		Modeller.Modell.create({
 			id : "window-1",
 			title : "Window 1",
 			desc : "I am plumbed with a Bezier connector to Window 2 and a label, with Blank endpoints."
 		}),
-		Modell.create({
+		Modeller.Modell.create({
 			id : "window-2",
 			title : "Window 2",
 			desc : "I am plumbed with a Bezier connector to Window 1."
@@ -96,26 +102,26 @@
 
 
 	// View for Modells
-	var modellerView = Ember.View.create({
+	Modeller.modellerView = Ember.View.create({
 		templateName : 'components',
-		modells : modells,
+		modells : Modeller.modells,
 
 		didInsertElement : function () {
 			// make components draggable
 			jsPlumb.draggable( $('.component') );
 
-			connections.forEach(function (item) {
+			Modeller.connections.forEach(function (item) {
 				item.render();
 			});
 		}
 	});
 
-	modellerView.appendTo('.main');
+	Modeller.modellerView.appendTo('.main');
 
 
 
 	// Connections
-	var Connection = Ember.Object.extend({
+	Modeller.Connection = Ember.Object.extend({
 		source : null,
 		target : null,
 		label : {
@@ -147,8 +153,8 @@
 	});
 
 
-	var connections = [
-		Connection.create({
+	Modeller.connections = [
+		Modeller.Connection.create({
 			source : "window-1",
 			target : "window-2",
 			label : {
@@ -160,7 +166,7 @@
 
 
 	// Template for dialogue
-	var dialogueView = Ember.View.extend({
+	Modeller.dialogueView = Ember.View.extend({
 		templateName : 'dialogue',
 		classNames : ['dialogue'],
 
@@ -172,7 +178,7 @@
 		connection : {
 			title : null
 		},
-		modells : modells
+		modells : Modeller.modells
 	});
 
 

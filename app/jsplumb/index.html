@@ -12,14 +12,16 @@
 
 </head>
 <body data-counter="2">
-  <header>
-    <h1>A test moduler</h1>
-    <p>This is test-modeller for the TYPO3 Extension Builder.</p>
+  <script type="text/x-handlebars">
+    <header>
+      <h1>{{Modeller.name}}</h1>
+      <p>{{Modeller.desc}}</p>
 
-    <ul>
-      <li><a href="#" class="add-component">+ Add Component</a></li>
-    </ul>
-  </header>
+      <ul>
+        <li><a href="#" class="add-component">+ Add Component</a></li>
+      </ul>
+    </header>
+  </script>
   
   <div class="main"></div>
 
@@ -51,6 +53,7 @@
     <fieldset>
       <label for="modell-relation">Connection To:</label>
       <select id="modell-relation">
+        <<option value=""></option>
         {{#modells}}
           <option value="{{unbound id}}">{{unbound title}}</option>
         {{/modells}}
@@ -60,6 +63,10 @@
     <fieldset>
       <label for="connection-title">Connection-Title:</label>
       <input type="text" id="connection-title" value="{{unbound connection.title}}">
+    </fieldset>
+
+    <fieldset>
+      <input type="button" value="Save Modell">
     </fieldset>
   </script>
 
