@@ -243,11 +243,14 @@
 	+ function () {
 		var items = Modeller.Storage.findAll();
 
+		// If items is empty, add two components
 		if (items.length < 1) {
 			Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
 			Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
+
+			items = Modeller.Storage.findAll();
 		}
-		
+
 		Modeller.modellerController.set('[]', items);
 		Modeller.modellerView.appendTo('.main');
 	} ();
