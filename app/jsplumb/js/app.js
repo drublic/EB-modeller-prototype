@@ -138,7 +138,7 @@
 		connection : {
 			title : null
 		},
-		modells : Modeller.modells
+		modells : Modeller.Storage.findAllByType()
 	});
 
 
@@ -231,7 +231,52 @@
 		// Esc
 		.on('keydown', function (e) {
 			e.keyCode === 27 && dialogue().close();
-		});
+		})
+
+
+		// Submitting form
+		.on('submit', '.dialogue-add', function (e) {
+			e.preventDefault();
+
+			var new_modell,
+					isComplete = true,
+					values = {},
+					$fields = $(this).find('input, textarea, select');
+			
+			$fields.each(function () {
+				if ($(this).attr('id')) {
+					values[$(this).attr('id')] = $(this).val();
+
+					if (!$(this).val()) {
+						isComplete = false;
+					}
+				}
+			});
+
+			if (!isComplete) {
+				return false;
+			}
+
+			// Set a new object
+			new_modell = Modeller.modellerController.createModell(values['modell-title'], values['modell-desc']);
+
+			// Set connections?
+			if (values['modell-relation']) {
+				Modeller.modellerController.createConnection(new_modell.id, values['modell-relation'], values['connection-title']);
+			}
+
+			dialogue().close();
+		})
+
+
+
+
+
+
+
+
+
+		;
 
 
 
