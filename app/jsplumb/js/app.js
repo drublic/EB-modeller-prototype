@@ -49,7 +49,7 @@
 
 
 
-	Modeller.ModellStore = (function () {
+	Modeller.Storage = (function () {
 	  
 	  // Generate four random hex digits.
 	  var S4 = function () {
@@ -127,7 +127,7 @@
 
 		// If anything changes in this model, this Storage is updated
 	  modellChanged: function () {
-	    Modeller.ModellStore.update(this);
+	    Modeller.Storage.update(this);
 	  }.observes('title', 'desc')
 	});
 
@@ -135,7 +135,7 @@
 	// View for Modells
 	Modeller.modellerView = Ember.View.create({
 		templateName : 'components',
-		modells : Modeller.ModellStore.findAll(),
+		modells : Modeller.Storage.findAll(),
 
 		didInsertElement : function () {
 			// make components draggable
@@ -219,17 +219,17 @@
 	    	desc : desc
 	   	});
 	    this.pushObject(modell);
-	    Modeller.ModellStore.create(modell);
+	    return Modeller.Storage.create(modell);
 	  },
 
 	  pushObject: function (item, ignoreStorage) {
 	    if (!ignoreStorage)
-	      Modeller.ModellStore.create(item);
+	      Modeller.Storage.create(item);
 	    return this._super(item);
 	  },
 
 	  removeObject: function (item) {
-	    Modeller.ModellStore.remove(item);
+	    Modeller.Storage.remove(item);
 	    return this._super(item);
 	  }
 	});
@@ -241,7 +241,7 @@
 
 	// Init Modells
 	+ function () {
-		var items = Modeller.ModellStore.findAll();
+		var items = Modeller.Storage.findAll();
 
 		if (items.length > 1){
 			Modeller.modellerController.set('[]', items);
