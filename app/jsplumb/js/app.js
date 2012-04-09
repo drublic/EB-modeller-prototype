@@ -52,7 +52,7 @@
 		id : null,
 		title : null,
 		desc : null,
-	  _type : "Modell"
+	  _type : "Modell",
 
 		// If anything changes in this model, this Storage is updated
 	  modellChanged: function () {
