@@ -83,6 +83,50 @@
 	};
 
 
+
+
+
+
+	// Create an Modell object
+	var Modell = Ember.Object.extend({
+		id : null,
+		title : null,
+		desc : null
+	});
+
+	// Create a collection for Modell
+	var modells = [
+		Modell.create({
+			id : "window-1",
+			title : "Window 1",
+			desc : "I am plumbed with a Bezier connector to Window 2 and a label, with Blank endpoints."
+		}),
+		Modell.create({
+			id : "window-2",
+			title : "Window 2",
+			desc : "I am plumbed with a Bezier connector to Window 1."
+		})
+	];
+
+
+	// View for Modells
+	var modellerView = Ember.View.create({
+		templateName : 'components',
+		modells : modells,
+
+		didInsertElement : function () {
+			// make components draggable
+			jsPlumb.draggable( $('.component') );
+
+			connections.forEach(function (item) {
+				item.render();
+			});
+		}
+	});
+
+	modellerView.appendTo('.main');
+
+
 	// handles the first init
 	jsPlumb.bind("ready", function() {
 
