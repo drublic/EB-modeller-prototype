@@ -84,6 +84,7 @@
 		label : {
 			title : null
 		},
+		_type : "Connection",
 
 		render : function () {
 			var that = this;
