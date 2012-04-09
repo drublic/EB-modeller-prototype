@@ -19,60 +19,100 @@
 			endpoint : {
 				fillStyle: "#a7b04b"
 			}
-		},
-			
-		init : function () {
-			
-			jsPlumb.DefaultDragOptions = {
-				cursor: "pointer",
-				zIndex: 2000
-			};
-
-			// jsPlumb event handlers
-	
-			// double click on any connection 
-			jsPlumb.bind("dblclick", function(connection, e) {
-				log("double click on connection from " + connection.sourceId + " to " + connection.targetId);
-			});
-			
-			// single click on any endpoint
-			jsPlumb.bind("endpointClick", function(endpoint, e) {
-				log("click on endpoint on element " + endpoint.elementId);
-			});
-			
-			// context menu
-			jsPlumb.bind("contextmenu", function(component, e) {
-				log("content menu click");
-			});
-            
-		},
+		}
+	};
 
 
 
-		dialogue : function () {
-			var view = Modeller.dialogueView.create({
-				title : "Add Component"
-			});
+	var	dialogue = function () {
+		var view = Modeller.dialogueView.create({
+			title : "Add Component"
+		});
 
-			return {
-				add : function () {
-					var template, output,
-							data = {};
+		return {
+			add : function () {
+				var template, output;
 
-					$('body').append('<div class="overlay"></div>');
+				$('body').append('<div class="overlay"></div>');
 
-					// Append it to the body
-					view.append();
-				},
+				// Append it to the body
+				view.append();
+			},
 
-				close : function () {
-					view.remove();
-					$('.dialogue').remove();
-					$('.overlay').remove();
-				}
+			close : function () {
+				view.remove();
+				$('.dialogue').remove();
+				$('.overlay').remove();
 			}
 		}
 	};
+
+
+
+	Modeller.ModellStore = (function () {
+	  
+	  // Generate four random hex digits.
+	  var S4 = function () {
+	     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	  };
+
+	  // Generate a pseudo-GUID by concatenating random hexadecimal.
+	  var guid = function () {
+	     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+	  };
+
+	  // Our Store is represented by a single JS object in *localStorage*. Create it
+	  // with a meaningful name, like the name you'd give a table.
+	  var Store = function(name) {
+	    this.name = name;
+	    var store = localStorage.getItem(this.name);
+	    this.data = (store && JSON.parse(store)) || {};
+
+	    // Save the current state of the **Store** to *localStorage*.
+	    this.save = function() {
+	      localStorage.setItem(this.name, JSON.stringify(this.data));
+	    };
+
+	    // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
+	    // have an id of it's own.
+	    this.create = function (model) {
+	      if (!model.get('id')) model.set('id', guid());
+	      return this.update(model);
+	    };
+
+	    // Update a model by replacing its copy in `this.data`.
+	    this.update = function (model) {
+	      this.data[model.get('id')] = model.getProperties('id', 'title', 'desc');
+	      this.save();
+	      return model;
+	    };
+
+	    // Retrieve a model from `this.data` by id.
+	    this.find = function (model) {
+	      return Modeller.Modell.create(this.data[model.get('id')]);
+	    };
+
+	    // Return the array of all models currently in storage.
+	    this.findAll = function() {
+	      var result = [];
+	      for (var key in this.data) {
+	        var modells = Modeller.Modell.create(this.data[key]);
+	        result.push(modells);
+	      }
+
+	      return result;
+	    };
+
+	    // Delete a model from `this.data`, returning it.
+	    this.remove = function(model) {
+	      delete this.data[model.get('id')];
+	      this.save();
+	      return model;
+	    };
+	  };
+
+	  return new Store('_modeller');
+	})();
 
 
 
@@ -83,28 +123,19 @@
 	Modeller.Modell = Ember.Object.extend({
 		id : null,
 		title : null,
-		desc : null
-	});
+		desc : null,
 
-	// Create a collection for Modell
-	Modeller.modells = [
-		Modeller.Modell.create({
-			id : "window-1",
-			title : "Window 1",
-			desc : "I am plumbed with a Bezier connector to Window 2 and a label, with Blank endpoints."
-		}),
-		Modeller.Modell.create({
-			id : "window-2",
-			title : "Window 2",
-			desc : "I am plumbed with a Bezier connector to Window 1."
-		})
-	];
+		// If anything changes in this model, this Storage is updated
+	  modellChanged: function () {
+	    Modeller.ModellStore.update(this);
+	  }.observes('title', 'desc')
+	});
 
 
 	// View for Modells
 	Modeller.modellerView = Ember.View.create({
 		templateName : 'components',
-		modells : Modeller.modells,
+		modells : Modeller.ModellStore.findAll(),
 
 		didInsertElement : function () {
 			// make components draggable
@@ -115,9 +146,6 @@
 			});
 		}
 	});
-
-	Modeller.modellerView.appendTo('.main');
-
 
 
 	// Connections
@@ -182,23 +210,47 @@
 	});
 
 
+	Modeller.modellerController = Ember.ArrayProxy.create({
+	  content: [],
 
+	  createModell: function (title, desc) {
+	    var modell = Modeller.Modell.create({
+	    	title : title,
+	    	desc : desc
+	   	});
+	    this.pushObject(modell);
+	    Modeller.ModellStore.create(modell);
+	  },
 
+	  pushObject: function (item, ignoreStorage) {
+	    if (!ignoreStorage)
+	      Modeller.ModellStore.create(item);
+	    return this._super(item);
+	  },
 
-	// handles the first init
-	jsPlumb.bind("ready", function() {
-
-	  // render mode
-		var resetRenderMode = function (desiredMode) {
-			_plumber.init();
-		};
-
-		resetRenderMode(jsPlumb.SVG);
+	  removeObject: function (item) {
+	    Modeller.ModellStore.remove(item);
+	    return this._super(item);
+	  }
 	});
 
 
 
 
+
+
+	// Init Modells
+	+ function () {
+		var items = Modeller.ModellStore.findAll();
+
+		if (items.length > 1){
+			Modeller.modellerController.set('[]', items);
+			Modeller.modellerView.appendTo('.main');
+		} else {
+			Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
+			Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
+		}
+	} ();
 
 
 	// Events
@@ -207,23 +259,22 @@
 		// When clicking to add a component
 		.on('click', '.add-component', function (e) {
 			e.preventDefault();
-
-			_plumber.dialogue().add();
+			dialogue().add();
 		})
-		
+
 		// Dialogue close
 		.on('click', '.dialogue-close', function () {
-			_plumber.dialogue().close();
+			dialogue().close();
 		})
 
 		// Overlay
 		.on('click', '.overlay', function () {
-			_plumber.dialogue().close();
+			dialogue().close();
 		})
 
 		// Esc
 		.on('keydown', function (e) {
-			e.keyCode === 27 && _plumber.dialogue().close();
+			e.keyCode === 27 && dialogue().close();
 		});
 
 
