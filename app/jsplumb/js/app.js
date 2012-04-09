@@ -95,5 +95,32 @@
 	});
 
 
+	// Events
+	$(document)
+
+		// When clicking to add a component
+		.on('click', '.add-component', function (e) {
+			e.preventDefault();
+
+			_plumber.dialogue().add();
+		})
+		
+		// Dialogue close
+		.on('click', '.dialogue-close', function () {
+			_plumber.dialogue().close();
+		})
+
+		// Overlay
+		.on('click', '.overlay', function () {
+			_plumber.dialogue().close();
+		})
+
+		// Esc
+		.on('keydown', function (e) {
+			e.keyCode === 27 && _plumber.dialogue().close();
+		});
+
+
+
 } (jQuery, window);
 
