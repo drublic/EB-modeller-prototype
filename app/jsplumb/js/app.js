@@ -2,11 +2,6 @@
 // IIFE fo fastr XS
 + function ($, exports, undefined) {
 
-	Modeller = Ember.Application.create({ 
-		name : "A test moduler",
-		desc : "This is test-modeller for the TYPO3 Extension Builder."
-	});
-
 	
 	var _plumber = {
 		colors : {
