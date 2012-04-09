@@ -21,3 +21,59 @@ body {
 	height: 400px;
 }
 
+
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9990;
+	background: rgba(200,200,200,.5);
+}
+
+.dialogue {
+	position: fixed;
+	top: 50px;
+	left: 50%;
+	z-index: 9999;
+	margin-left: -250px;
+	width: 500px;
+	padding: 20px;
+	box-sizing: border-box;
+	background: #f5f5f5;
+	border: 1px solid #ddd;
+}
+
+
+
+
+.component {
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	z-index: 20;
+	border: 2px solid #346789; 
+	padding: .5em; 
+ 	width: 14em; 
+ 	height: 12em;
+ 	background: rgba(255,255,255,.8);
+	font: .8em sans-serif;
+	color: black;
+}
+
+.label {
+	background: rgba(255,255,255,.6);
+	border: 1px solid #346789; 
+	padding: 8px;
+}
+.label:hover { border-color:#5d94a6; }
+
+
+
+
+
+
+
+
