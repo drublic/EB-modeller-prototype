@@ -243,13 +243,13 @@
 	+ function () {
 		var items = Modeller.Storage.findAll();
 
-		if (items.length > 1){
-			Modeller.modellerController.set('[]', items);
-			Modeller.modellerView.appendTo('.main');
-		} else {
+		if (items.length < 1) {
 			Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
 			Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
 		}
+		
+		Modeller.modellerController.set('[]', items);
+		Modeller.modellerView.appendTo('.main');
 	} ();
 
 
