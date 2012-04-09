@@ -44,10 +44,6 @@
 
 
 
-	
-
-
-
 
 
 
@@ -148,7 +144,8 @@
 	  createModell: function (title, desc) {
 	    var modell = Modeller.Modell.create({
 	    	title : title,
-	    	desc : desc
+	    	desc : desc,
+	    	_type : "Modell"
 	   	});
 	    this.pushObject(modell);
 	    return Modeller.Storage.create(modell);
@@ -173,14 +170,14 @@
 
 	// Init Modells
 	+ function () {
-		var items = Modeller.Storage.findAll();
+		var items = Modeller.Storage.findAllByType();
 
 		// If items is empty, add two components
 		if (items.length < 1) {
 			Modeller.modellerController.createModell("Window 1", "I am plumbed with a Bezier connector to Window 2 and a label");
 			Modeller.modellerController.createModell("Window 2", "I am plumbed with a Bezier connector to Window 1.");
 
-			items = Modeller.Storage.findAll();
+			items = Modeller.Storage.findAllByType();
 		}
 
 		Modeller.modellerController.set('[]', items);
