@@ -79,6 +79,28 @@
 			// make components draggable
 			jsPlumb.draggable( $('.window') );
             
+		dialogue : function () {
+			var view = dialogueView.create({
+				title : "Add Component"
+			});
+
+			return {
+				add : function () {
+					var template, output,
+							data = {};
+
+					$('body').append('<div class="overlay"></div>');
+
+					// Append it to the body
+					view.append();
+				},
+
+				close : function () {
+					view.remove();
+					$('.dialogue').remove();
+					$('.overlay').remove();
+				}
+			}
 		}
 	};
 
