@@ -26,12 +26,12 @@
   <div class="main"></div>
 
   <script type="text/x-handlebars" data-template-name="components">
-    {{#modells}}
-      <div class="component" id="{{unbound id}}" style="top: {{unbound position.top}}; left: {{unbound position.left}}">
+    {{#each Modeller.modellerController}}
+      <div class="component" id="{{unbound id}}" style="top: {{unbound position.top}}; left: {{unbound position.left}};">
         <h3>{{title}}</h3>
         <p>{{desc}}</p>
       </div>
-    {{/modells}}
+    {{/each}}
   </script>
 
 

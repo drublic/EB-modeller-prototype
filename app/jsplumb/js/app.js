@@ -14,11 +14,9 @@ var _plumber = {
 };
 
 
-
 // View for Modells
 Modeller.modellerView = Ember.View.create({
 	templateName : 'components',
-	modells : Modeller.Storage.findAllByType(),
 
 	// After the elements are inserted
 	didInsertElement : function () {
