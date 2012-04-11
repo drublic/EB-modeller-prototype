@@ -78,11 +78,15 @@ body {
 	z-index: 20;
 	border: 2px solid #346789; 
 	padding: .5em; 
- 	width: 14em; 
- 	height: 12em;
+ 	width: 10em; 
+ 	height: 8em;
  	background: rgba(255,255,255,.8);
 	font: .8em sans-serif;
 	color: black;
+}
+
+.component h3 {
+	margin: 0;
 }
 
 .label {
