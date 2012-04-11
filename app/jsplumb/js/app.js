@@ -39,7 +39,7 @@ Modeller.modellerView = Ember.View.create({
 
 
 
-// Init Modells
+// Init
 + function () {
 	var items = Modeller.Storage.findAllByType();
 
