@@ -77,7 +77,8 @@
 				source: that.source,
 			  target: that.target,
 			  cssClass: "connection",
-			  endpointClass: "c1Endpoint",
+			  connector: "StateMachine",
+			  endpoint: "Blank",
 			  anchor: "AutoDefault",
 			  paintStyle: {
 					lineWidth: 2,
@@ -87,6 +88,11 @@
 			  	["Label", {
 	 					cssClass: "label",
 	 					label : that.label.title,
+	 				}],
+	 				["PlainArrow", {
+	 					location: 1,
+	 					width: 20,
+	 					length: 12
 	 				}]
 				]
 			});
