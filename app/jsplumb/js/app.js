@@ -102,24 +102,6 @@
 
 
 
-	// Template for dialogue
-	Modeller.dialogueView = Ember.View.extend({
-		templateName : 'dialogue',
-		classNames : ['dialogue'],
-		tagName : 'form',
-
-		title : null,
-		modell : {
-			title : null,
-			desc : null
-		},
-		connection : {
-			title : null
-		},
-		modells : Modeller.Storage.findAllByType()
-	});
-
-
 	Modeller.modellerController = Ember.ArrayProxy.create({
 	  content: [],
 
