@@ -78,7 +78,7 @@
 			  target: that.target,
 			  cssClass: "connection",
 			  endpointClass: "c1Endpoint",
-			  anchors: ["BottomCenter", [ 0.75, 0, 0, -1 ]],
+			  anchor: "AutoDefault",
 			  paintStyle: {
 					lineWidth: 2,
 					strokeStyle: _plumber.colors.connector_stroke
