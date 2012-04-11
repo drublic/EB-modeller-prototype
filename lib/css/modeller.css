@@ -90,9 +90,12 @@ body {
 }
 
 .label {
-	background: rgba(255,255,255,.6);
+	position: relative;
+	z-index: 1;
+	background: rgba(255,255,255,.8);
 	border: 1px solid #346789; 
-	padding: 8px;
+	padding: .2em;
+	font-size: .9em;
 }
 .label:hover { border-color:#5d94a6; }
 
