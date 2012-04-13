@@ -14,6 +14,39 @@ var _plumber = {
 };
 
 
+Modeller.Connection.reopen({
+
+	render : function () {
+
+		var item = this;
+
+		jsPlumb.connect({
+			source: item.source,
+		  target: item.target,
+		  cssClass: "connection",
+		  connector: "StateMachine",
+		  endpoint: "Blank",
+		  anchor: "AutoDefault",
+		  paintStyle: {
+				lineWidth: 2,
+				strokeStyle: _plumber.colors.connector_stroke
+			},
+		  overlays : [
+		  	["Label", {
+ 					cssClass: "label",
+ 					label : item.label.title,
+ 				}],
+ 				["PlainArrow", {
+ 					location: 1,
+ 					width: 20,
+ 					length: 12
+ 				}]
+			]
+		});
+	}
+});
+
+
 // View for Modells
 Modeller.modellerView = Ember.View.create({
 	templateName : 'components',
