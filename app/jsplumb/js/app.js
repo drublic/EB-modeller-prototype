@@ -48,7 +48,7 @@ Modeller.Connection.reopen({
 
 
 // View for Modells
-Modeller.modellerView = Ember.View.create({
+Modeller.ModellerView = Ember.View.extend({
 	templateName : 'components',
 
 	// After the elements are inserted
@@ -57,12 +57,18 @@ Modeller.modellerView = Ember.View.create({
 		// Find all connections in storage
 		var connections = Modeller.Storage.findAllByType("Connection");
 
+		// Render Connections
+		connections.forEach( function (item) {
+			item.render();
+		});
+		
 		// make components draggable
 		jsPlumb.draggable( $('.component') );
+	}
+});
 
-		// Render Connections
-		connections.forEach(function (item) {
-			item.render();
+Modeller.componentView = Modeller.ModellerView.create();
+Modeller.componentView.appendTo('.main');
 		});
 	}
 });
