@@ -17,17 +17,17 @@
       <h1>{{Modeller.name}}</h1>
       <p>{{Modeller.desc}}</p>
     </header>
+
+    <ul>
+      <li><a href="#" class="add-component">+ Add Component</a></li>
+    </ul>
   </script>
 
-  <ul>
-    <li><a href="#" class="add-component">+ Add Component</a></li>
-  </ul>
-  
   <div class="main"></div>
 
-  <script type="text/x-handlebars" data-template-name="components">
-    {{#each Modeller.modellerController}}
-      <div class="component" id="{{unbound id}}" style="top: {{unbound position.top}}; left: {{unbound position.left}};">
+  <script type="text/x-handlebars" data-template-name="components">  
+    {{#each Modeller.ModellerController}}
+      <div class="component" {{bindAttr id="id"}} style="top: {{unbound position.top}}; left: {{unbound position.left}};">
         <h3>{{title}}</h3>
         <p>{{desc}}</p>
       </div>
