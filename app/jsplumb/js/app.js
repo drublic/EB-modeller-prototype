@@ -69,7 +69,30 @@ Modeller.ModellerView = Ember.View.extend({
 
 Modeller.componentView = Modeller.ModellerView.create();
 Modeller.componentView.appendTo('.main');
+
+
+
+
+
+
+// Drag-events for components
+var timestamp = 0;
+$(document).on('drag', '.component', function (e) {
+
+	// Check if timestemps differ more then 100ms
+	if ((e.timeStamp - timestamp) > 100) {
+		var offset = $(this).offset();
+
+		// Update Classes
+		var draggedModell = Modeller.Storage.findById(this.id);
+		draggedModell.set('position', {
+			top : offset.top,
+			left : offset.left
 		});
+
+
+
+		timestamp = e.timeStamp;
 	}
 });
 
